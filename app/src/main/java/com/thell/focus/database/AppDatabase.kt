@@ -23,11 +23,11 @@ abstract class AppDatabase : RoomDatabase()
         fun getInstance(context: Context): AppDatabase
         {
             return INSTANCE ?:
-            Room.databaseBuilder(context, AppDatabase::class.java,GlobalHelper.DATABASE_NAME).
-            allowMainThreadQueries().
-            fallbackToDestructiveMigration().
-            addCallback(roomCallback).
-            build()
+                    Room.databaseBuilder(context, AppDatabase::class.java,GlobalHelper.DATABASE_NAME).
+                    allowMainThreadQueries().
+                    fallbackToDestructiveMigration().
+                    addCallback(roomCallback).
+                    build()
         }
 
         private val roomCallback=object: RoomDatabase.Callback()

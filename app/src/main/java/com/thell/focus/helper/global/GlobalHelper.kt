@@ -1,6 +1,5 @@
 package com.thell.focus.helper.global
 
-import com.thell.focus.database.entity.SettingsEntity
 
 object GlobalHelper
 {
