@@ -10,6 +10,9 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    viewBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.thell.focus"
@@ -55,7 +58,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

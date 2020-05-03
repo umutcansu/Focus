@@ -2,4 +2,6 @@
     <string name="app_name">focus</string>
     <string name="app_header">focus.</string>
     <string name="copyright">giving unto caesar that which is caesar\'s</string>
+    <string name="toolbar_close">Close</string>
+    <string name="toolbar_open">Open</string>
 </resources>

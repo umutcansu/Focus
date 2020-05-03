@@ -61,7 +61,7 @@
 
         <fragment
             android:id="@+id/mainActivityDrawerLayoutFragment"
-            android:name="com.thell.mutenotification.fragment.NavigationDrawerFragment"
+            android:name="com.thell.focus.ui.fragment.NavigationDrawerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
