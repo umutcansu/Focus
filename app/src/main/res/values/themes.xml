@@ -7,4 +7,13 @@
         <item name="colorAccent">@color/teal200</item>
     </style>
 
+    <style name="ToolBarTheme" parent="Base.ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="actionButtonStyle">@drawable/ic_menu_black_24dp</item>
+    </style>
+
+    <style name="ToolBarPopupTheme" parent="Base.ThemeOverlay.AppCompat.Light">
+
+    </style>
+
 </resources>

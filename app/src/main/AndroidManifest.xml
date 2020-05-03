@@ -5,12 +5,12 @@
     <application
         android:allowBackup="true"
         android:name=".FocusApplication"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:logo="@drawable/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Focus">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
