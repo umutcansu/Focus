@@ -8,23 +8,21 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.thell.focus.R
-import com.thell.focus.databinding.ActivityMainBinding
-import com.thell.focus.databinding.FragmentContainerBinding
+import com.thell.focus.databinding.FragmentHistoryBinding
 import com.thell.focus.databinding.FragmentMainBinding
 import com.thell.focus.helper.navigation.IFragmentCallback
 import com.thell.focus.helper.navigation.NavigationMenuHelper
 
 
-class MainFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
     private lateinit var navController: NavController
-    private  var binding: FragmentMainBinding? = null
-
+    private  var binding: FragmentHistoryBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-       binding = FragmentMainBinding.inflate(layoutInflater)
-       return binding?.root
+        binding = FragmentHistoryBinding.inflate(layoutInflater)
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
@@ -35,7 +33,7 @@ class MainFragment : Fragment() {
         {
             val args = MainFragmentArgs.fromBundle(requireArguments())
             val callback =  args.fragmentCallback as IFragmentCallback
-            callback.changeHeader(NavigationMenuHelper.HOME)
+            callback.changeHeader(NavigationMenuHelper.HISTORY)
         }
 
     }
@@ -44,6 +42,4 @@ class MainFragment : Fragment() {
         binding = null
         super.onDestroyView()
     }
-
-
 }

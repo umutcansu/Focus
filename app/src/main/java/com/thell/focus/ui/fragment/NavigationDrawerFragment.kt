@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thell.focus.R
 import com.thell.focus.adapter.NavigationDrawerAdapter
+import com.thell.focus.databinding.FragmentContainerBinding
+import com.thell.focus.databinding.FragmentNavigationDrawerBinding
 import com.thell.focus.helper.navigation.NavigationMenuHelper
 
 
@@ -22,13 +24,14 @@ class NavigationDrawerFragment() : Fragment()
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var navigationDrawerRecyclerView: RecyclerView
     private lateinit var adapter: NavigationDrawerAdapter
+    private  var binding: FragmentNavigationDrawerBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-        val v = inflater.inflate(R.layout.fragment_navigation_drawer, container, false)
-        //navigationDrawerRecyclerView =  v.navigationDrawerRecyclerView
-        return v
+        binding = FragmentNavigationDrawerBinding.inflate(layoutInflater)
+        navigationDrawerRecyclerView = binding!!.navigationDrawerRecyclerView
+        return binding?.root
     }
 
     fun setupDrawerToggle(drawerLayout: DrawerLayout, toolbar: Toolbar,

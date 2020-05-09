@@ -4,23 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
     app:startDestination="@id/containerFragment">
-    <fragment
-        android:id="@+id/containerFragment"
-        android:name="com.thell.focus.ui.fragment.ContainerFragment"
-        android:label="fragment_container"
-        tools:layout="@layout/fragment_container" >
-        <action
-            android:id="@+id/action_containerFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.thell.focus.ui.fragment.MainFragment"
-        android:label="MainFragment" >
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
         <argument
             android:name="fragmentCallback"
             app:argType="com.thell.focus.helper.navigation.IFragmentCallback"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.thell.focus.ui.fragment.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <argument
+            android:name="fragmentCallback"
+            app:argType="com.thell.focus.helper.navigation.IFragmentCallback"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.thell.focus.ui.fragment.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <argument
+            android:name="fragmentCallback"
+            app:argType="com.thell.focus.helper.navigation.IFragmentCallback"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.thell.focus.ui.fragment.TimerFragment"
+        android:label="fragment_timer"
+        tools:layout="@layout/fragment_timer" >
+        <argument
+            android:name="fragmentCallback"
+            app:argType="com.thell.focus.helper.navigation.IFragmentCallback"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/containerFragment"
+        android:name="com.thell.focus.ui.fragment.ContainerFragment"
+        android:label="fragment_container"
+        tools:layout="@layout/fragment_container" />
 </navigation>
