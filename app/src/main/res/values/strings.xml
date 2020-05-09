@@ -4,4 +4,11 @@
     <string name="copyright">giving unto caesar that which is caesar\'s</string>
     <string name="toolbar_close">Close</string>
     <string name="toolbar_open">Open</string>
+    <string name="mute">Mute</string>
+    <string name="notification">Notification</string>
+    <string name="switch_mute_notification_text">Mute Notification</string>
+    <string name="muteExp"><![CDATA[<p>Notifications are <strong>muted</strong> in order to <strong>focus</strong> on your works.</p>]]></string>
+    <string name="notificationExp"><![CDATA[<p>Notifications are <strong>allowed.</strong></p>]]></string>
+
+
 </resources>

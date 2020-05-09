@@ -1,5 +1,7 @@
 package com.thell.focus.helper.navigation
 
-interface IFragmentCallback {
+import java.io.Serializable
+
+interface IFragmentCallback :Serializable{
     fun changeHeader(header:String)
 }
