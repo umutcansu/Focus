@@ -1,10 +1,10 @@
 package com.thell.focus.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -15,12 +15,14 @@ import com.thell.focus.databinding.ActivityMainBinding
 import com.thell.focus.helper.navigation.IFragmentCallback
 import com.thell.mutenotification.model.NavigationDrawerItem
 import androidx.appcompat.widget.Toolbar
-import androidx.navigation.NavArgs
+import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.thell.focus.FocusApplication
+import com.thell.focus.helper.global.GlobalHelper
+import com.thell.focus.helper.global.GuiHelper
 import com.thell.focus.helper.navigation.NavigationMenuHelper
 import com.thell.focus.ui.fragment.*
+import kotlinx.android.synthetic.main.fragment_navigation_drawer.view.*
 
 class MainActivity : AppCompatActivity(),IFragmentCallback
 {
@@ -29,6 +31,68 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navFrag : NavigationDrawerFragment
     private lateinit var navController: NavController
+
+    private val infoOnClick = object :View.OnClickListener
+    {
+
+        lateinit var dialog:AlertDialog
+        lateinit var alertDialogBuilder:AlertDialog.Builder
+
+        override fun onClick(p0: View)
+        {
+            GuiHelper.startRotatingView(null,p0,::coreClick)
+        }
+
+        private fun coreClick()
+        {
+
+            if(!::alertDialogBuilder.isInitialized)
+            {
+                val message =
+                    "${HtmlCompat.fromHtml(getString(R.string.info),HtmlCompat.FROM_HTML_MODE_LEGACY)}" +
+                            "Version: ${GlobalHelper.VERSION}"
+                alertDialogBuilder = AlertDialog.Builder(this@MainActivity)
+                alertDialogBuilder.setTitle(R.string.app_name)
+                alertDialogBuilder.setMessage(message)
+                alertDialogBuilder.setPositiveButton(
+                    R.string.ok,
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        dialog.dismiss()
+                    })
+            }
+            if(!::dialog.isInitialized)
+            {
+                dialog = alertDialogBuilder.create()
+            }
+
+            dialog.show()
+
+        }
+
+    }
+
+    private val menuOnClick = object :View.OnClickListener
+    {
+
+        override fun onClick(p0: View)
+        {
+            GuiHelper.startRotatingView(null,p0,::coreClick)
+        }
+
+        private fun coreClick()
+        {
+            GuiHelper.openDrawerLayout(drawerLayout)
+        }
+
+    }
+
+
+
+    private fun initButtonClick()
+    {
+        binding.mainActivityToolbar.toolbarInfoButton.setOnClickListener(infoOnClick)
+        binding.mainActivityToolbar.toolbarMenuButton.setOnClickListener(menuOnClick)
+    }
 
     override fun changeHeader(header: String)
     {
@@ -62,7 +126,7 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
 
     private fun initUI()
     {
-        //GuiHelper.setTextViewPatternBackground(resources,R.drawable.pattern,fragment_navigation_drawer_header_textView)
+        initButtonClick()
     }
     private fun init()
     {
@@ -98,7 +162,7 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
             NavigationMenuHelper.SETTING -> openSettingsFragment()
             NavigationMenuHelper.TIMER -> openTimerFragment()
         }
-        closeDrawerLayout()
+        GuiHelper.closeDrawerLayout(drawerLayout)
     }
 
     private fun changeFragment(fragment: Int,args:Bundle)
@@ -135,23 +199,5 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
         changeFragment(R.id.timerFragment,args.build().toBundle())
     }
 
-    @SuppressLint("WrongConstant")
-    fun closeDrawerLayout()
-    {
-        if(::drawerLayout.isInitialized)
-            drawerLayout.post {
-                drawerLayout.closeDrawer(Gravity.START, true)
-            }
-    }
-
-    @SuppressLint("WrongConstant")
-    fun openDrawerLayout()
-    {
-        if(::drawerLayout.isInitialized)
-            drawerLayout.post {
-                drawerLayout.openDrawer(Gravity.START, true)
-            }
-
-    }
 
 }

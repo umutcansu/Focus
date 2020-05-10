@@ -11,6 +11,7 @@ import com.thell.focus.R
 import com.thell.focus.databinding.ActivityMainBinding
 import com.thell.focus.databinding.FragmentContainerBinding
 import com.thell.focus.databinding.FragmentMainBinding
+import com.thell.focus.helper.global.GuiHelper
 import com.thell.focus.helper.navigation.IFragmentCallback
 import com.thell.focus.helper.navigation.NavigationMenuHelper
 
@@ -24,7 +25,19 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
        binding = FragmentMainBinding.inflate(layoutInflater)
+       initUI()
+       init()
        return binding?.root
+    }
+
+    private fun initUI()
+    {
+        GuiHelper.setTextViewPatternBackground(resources,R.drawable.pattern,binding!!.mainFragmentHeaderTextView)
+    }
+
+    private fun init()
+    {
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)

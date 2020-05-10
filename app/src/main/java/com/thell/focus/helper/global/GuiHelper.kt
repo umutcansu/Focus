@@ -8,12 +8,14 @@ import android.graphics.BitmapFactory
 import android.graphics.BitmapShader
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.TextView
+import androidx.drawerlayout.widget.DrawerLayout
 import java.util.*
 
 
@@ -41,6 +43,22 @@ class GuiHelper private constructor()
             catch (t:Throwable)
             {
                 ""
+            }
+        }
+
+        @SuppressLint("WrongConstant")
+        fun closeDrawerLayout(drawerLayout: DrawerLayout)
+        {
+            drawerLayout.post {
+                drawerLayout.closeDrawer(Gravity.START, true)
+            }
+        }
+
+        @SuppressLint("WrongConstant")
+        fun openDrawerLayout(drawerLayout: DrawerLayout)
+        {
+            drawerLayout.post {
+                drawerLayout.openDrawer(Gravity.START, true)
             }
         }
 
