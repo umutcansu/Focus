@@ -15,4 +15,6 @@ interface IRepository<T>
 
     fun getAll(): LiveData<List<T>>
 
+
+    fun getAllList(): List<T>
 }

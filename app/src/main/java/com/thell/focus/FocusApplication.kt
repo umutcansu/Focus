@@ -2,11 +2,18 @@ package com.thell.focus
 
 import android.app.Application
 import com.thell.focus.database.AppDatabase
+import com.thell.focus.helper.global.GlobalHelper
 
 class FocusApplication : Application()
 {
     init {
         application = this
+
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        GlobalHelper.startApplication()
     }
 
     companion object

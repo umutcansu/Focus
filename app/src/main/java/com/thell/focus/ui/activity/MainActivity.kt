@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavArgs
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.thell.focus.FocusApplication
 import com.thell.focus.helper.navigation.NavigationMenuHelper
 import com.thell.focus.ui.fragment.*
 

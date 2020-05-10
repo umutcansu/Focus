@@ -9,8 +9,22 @@
     <string name="switch_mute_notification_text">Mute Notification</string>
     <string name="muteExp"><![CDATA[<p>Notifications are <strong>muted</strong> in order to <strong>focus</strong> on your works.</p>]]></string>
     <string name="notificationExp"><![CDATA[<p>Notifications are <strong>allowed.</strong></p>]]></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="notification_listener_service">"Mute Notification"</string>
+    <string name="notification_listener_service_explanation">"For the app , cancel all push notification"</string>
+    <string name="system_alert_permission_explanation">"For the app , show page"</string>
+    <string name="notification_listener_boot_permission">"Enable auto start"</string>
+    <string name="yes">Yes</string>
+    <string name="ok">Ok</string>
+    <string name="no">No</string>
+    <string name="permission_request_cancel_message">You should allow to run app</string>
+    <string name="info"><![CDATA[<p>Coder by <strong>Umut Cansu</strong></p>]]></string>
+    <string name="loading">Loading..</string>
+    <string name="quitAppContent">Press once again to exit!</string>
+    <string name="search_hint_history">Application Name</string>
+    <string name="search_hint_search">Settings Name</string>
+    <string name="clearAllHistory">Clear All History?</string>
+    <string name="second">Second</string>
+    <string name="minute">Minute</string>
+    <string name="hour">Hour</string>
+    <string name="finishTimer">Timer Finished</string>
 </resources>

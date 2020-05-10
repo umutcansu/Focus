@@ -4,8 +4,22 @@ import androidx.lifecycle.LiveData
 import com.thell.focus.database.entity.SettingsEntity
 import com.thell.focus.repository.util.BaseRepository
 
-class SettingsRepository:BaseRepository<SettingsEntity>()
+class SettingsRepository private  constructor() :BaseRepository<SettingsEntity>()
 {
+
+    companion object
+    {
+        private lateinit var mSettingsRepository: SettingsRepository
+
+        fun getInstance() :SettingsRepository
+        {
+            if(!Companion::mSettingsRepository.isInitialized)
+                mSettingsRepository= SettingsRepository()
+
+            return mSettingsRepository
+        }
+    }
+
     val dao = database.getSettingsDao()
 
     override fun insert(t: SettingsEntity)
@@ -23,8 +37,17 @@ class SettingsRepository:BaseRepository<SettingsEntity>()
         dao.update(t)
     }
 
+    fun updateByKey(t: SettingsEntity)
+    {
+        dao.update(t.SettingsKey,t.State)
+    }
+
     override fun getAll(): LiveData<List<SettingsEntity>>
     {
         return dao.getAll()
+    }
+
+    override fun getAllList(): List<SettingsEntity> {
+        return  dao.getAllList()
     }
 }

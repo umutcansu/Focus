@@ -22,12 +22,24 @@ abstract class AppDatabase : RoomDatabase()
 
         fun getInstance(context: Context): AppDatabase
         {
-            return INSTANCE ?:
+            if(INSTANCE == null)
+            {
+                INSTANCE =
                     Room.databaseBuilder(context, AppDatabase::class.java,GlobalHelper.DATABASE_NAME).
-                    allowMainThreadQueries().
-                    fallbackToDestructiveMigration().
-                    addCallback(roomCallback).
-                    build()
+                        allowMainThreadQueries().
+                        fallbackToDestructiveMigration().
+                        //addCallback(roomCallback).
+                        build()
+
+                val data = INSTANCE!!.getSettingsDao().getAllList()
+                if (data.isNullOrEmpty())
+                {
+                    INSTANCE!!.getSettingsDao().insert(SettingsHelper.savedAlways)
+                    INSTANCE!!.getSettingsDao().insert(SettingsHelper.toastMessage)
+                }
+            }
+
+            return INSTANCE!!
         }
 
         private val roomCallback=object: RoomDatabase.Callback()
@@ -39,19 +51,21 @@ abstract class AppDatabase : RoomDatabase()
 
         }
 
-        private val seedQuery = """"
+        private val seedQuery = """
             insert into Settings 
+            (SettingsKey,SettingsDescription,State)
             values
             (
-                |${SettingsHelper.savedAlways.SettingsKey}
-                |${SettingsHelper.savedAlways.SettingsDescription}
-                |${SettingsHelper.savedAlways.State}
-            |,
-                |${SettingsHelper.toastMessage.SettingsKey}
-                |${SettingsHelper.toastMessage.SettingsDescription}
-                |${SettingsHelper.toastMessage.State}
-            )
-            |""".trimMargin()
+                "${SettingsHelper.toastMessage.SettingsKey}",
+                "${SettingsHelper.toastMessage.SettingsDescription}",
+                 ${SettingsHelper.toastMessage.State}
+            ),
+            (
+                "${SettingsHelper.savedAlways.SettingsKey}",
+                "${SettingsHelper.savedAlways.SettingsDescription}",
+                 ${SettingsHelper.savedAlways.State}
+            );
+            """.trim()
     }
 
 }

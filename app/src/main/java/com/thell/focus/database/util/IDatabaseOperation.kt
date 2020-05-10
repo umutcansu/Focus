@@ -17,4 +17,6 @@ interface IDatabaseOperation<T>
     fun update(t :T)
 
     fun getAll(): LiveData<List<T>>
+
+    fun getAllList():List<T>
 }
