@@ -30,6 +30,18 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".services.MuteNotificationTileService"
+            android:enabled="true"
+            android:icon="@drawable/ic_notifications_off_black_24dp"
+            android:label="Mute Notification"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
 
         <receiver
             android:name=".broadcastreceiver.BootBroadcastReceiver"
