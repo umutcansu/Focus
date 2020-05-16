@@ -10,10 +10,13 @@ import com.thell.focus.database.util.IDatabaseOperation
 interface NotificationDao: IDatabaseOperation<NotificationEntity>
 {
 
-    @Query("select * from Notification")
+    @Query("select * from Notification order by ID desc")
     override fun getAll(): LiveData<List<NotificationEntity>>
 
-    @Query("select * from Notification")
+    @Query("select * from Notification order by ID desc")
     override fun getAllList(): List<NotificationEntity>
+
+    @Query("delete from Notification")
+    fun deleteAll()
 
 }

@@ -32,6 +32,11 @@ class NotificationRepository  private  constructor() : BaseRepository<Notificati
         dao.delete(t)
     }
 
+    fun deleteAll()
+    {
+        dao.deleteAll()
+    }
+
     override fun update(t: NotificationEntity)
     {
         dao.update(t)
