@@ -1,6 +1,7 @@
 package com.thell.focus.helper.mutestate
 
 import android.content.Context
+import com.thell.focus.helper.notificationservice.NotificationServiceHelper
 
 class MuteStateSharedPrefAction(context: Context): MuteStateAction(context)
 {
@@ -23,7 +24,7 @@ class MuteStateSharedPrefAction(context: Context): MuteStateAction(context)
         editor.putBoolean(MUTE_STATE_KEY,value)
         editor.commit()
         sendBroadcast()
-        //NotificationServiceHelper.setStateService(context,value)
+        NotificationServiceHelper.setStateService(context,value)
     }
 
 }

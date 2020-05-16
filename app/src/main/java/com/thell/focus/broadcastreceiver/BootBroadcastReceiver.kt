@@ -9,7 +9,7 @@ class BootBroadcastReceiver : BroadcastReceiver()
 {
     override fun onReceive(context: Context, intent: Intent)
     {
-        GlobalHelper.startApplication()
+        GlobalHelper.startApplication(context)
     }
 
 }

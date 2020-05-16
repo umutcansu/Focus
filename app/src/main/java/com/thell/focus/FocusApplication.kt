@@ -13,7 +13,7 @@ class FocusApplication : Application()
 
     override fun onCreate() {
         super.onCreate()
-        GlobalHelper.startApplication()
+        GlobalHelper.startApplication(applicationContext)
     }
 
     companion object
