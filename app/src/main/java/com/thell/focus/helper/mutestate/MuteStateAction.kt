@@ -2,6 +2,7 @@ package com.thell.focus.helper.mutestate
 
 import android.content.Context
 import android.content.Intent
+import com.thell.focus.helper.bootreceiver.BroadcastReceiverHelper
 
 abstract class MuteStateAction(val context: Context):IMuteStateAction
 {
@@ -12,9 +13,9 @@ abstract class MuteStateAction(val context: Context):IMuteStateAction
 
     override fun sendBroadcast()
     {
-        //val intent =  Intent(Global.NotificationServiceBroadcastReceiver)
-        //intent.putExtra(MuteStateSharedPrefAction.MUTE_STATE_KEY,getMuteState())
-        //context.sendBroadcast(intent)
+        val intent =  Intent(BroadcastReceiverHelper.NotificationServiceBroadcastReceiver)
+        intent.putExtra(MuteStateSharedPrefAction.MUTE_STATE_KEY,getMuteState())
+        context.sendBroadcast(intent)
     }
 
 
