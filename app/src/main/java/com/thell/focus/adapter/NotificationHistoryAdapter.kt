@@ -40,12 +40,11 @@ class NotificationHistoryAdapter(val context: Context,private val data:List<Noti
             binding.tvPosttime.text = postTime
 
             binding.imgMuteState.apply {
-                var state: Int
-                if(notificationEntity.MuteState)
-                    state = R.drawable.ic_notifications_off_black_24dp
-                else
-                    state = R.drawable.ic_notifications_black_24dp
-
+                var state =
+                    if(notificationEntity.MuteState)
+                        R.drawable.ic_notifications_off_black_24dp
+                    else
+                        R.drawable.ic_notifications_black_24dp
                 setImageResource(state)
             }
 
