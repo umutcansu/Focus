@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import com.thell.focus.R
 import com.thell.focus.databinding.ActivityMainBinding
@@ -18,9 +20,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.thell.focus.helper.bootreceiver.BootReceiverHelper
+import com.thell.focus.helper.bootreceiver.BootReceiverPrefHelper
 import com.thell.focus.helper.global.GlobalHelper
 import com.thell.focus.helper.global.GuiHelper
 import com.thell.focus.helper.navigation.NavigationMenuHelper
+import com.thell.focus.helper.permission.PermissionHelper
 import com.thell.focus.ui.fragment.*
 import kotlinx.android.synthetic.main.fragment_navigation_drawer.view.*
 
@@ -124,15 +129,24 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
         init()
     }
 
+    override fun onResume()
+    {
+
+        if(isPermission)
+            checkAndRequestNotificationPermission()
+
+        super.onResume()
+    }
+
     private fun initUI()
     {
         initButtonClick()
     }
+
     private fun init()
     {
         initToolbarAndDrawerLayout()
         navController = Navigation.findNavController(this,R.id.nav_host_fragment)
-        openMainFragment()
     }
 
     private fun setupFullScreen()
@@ -147,6 +161,7 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
         toolbar = binding.mainActivityToolbar.root
         setupNavigationDrawer()
     }
+
     private fun setupNavigationDrawer()
     {
         navFrag = supportFragmentManager.findFragmentById(R.id.mainActivityDrawerLayoutFragment) as NavigationDrawerFragment
@@ -200,4 +215,119 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
     }
 
 
+    private fun start()
+    {
+        openMainFragment()
+    }
+
+//-------------------------------PERMISSION---------------------------------------------------------
+
+    private lateinit var dialog:AlertDialog
+    private var isPermission = true
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        if(requestCode == PermissionHelper.NOTIFICATION_PERMISSION_REQUEST_CODE)
+        {
+            checkAndRequestNotificationPermission()
+        }
+        else if(requestCode == PermissionHelper.BOOT_PERMISSION_REQUEST_CODE)
+        {
+            checkAndRequestBootReceiverPermission()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun notificationPermissionDialogListener(state:Boolean)
+    {
+        if(!state)
+        {
+            Toast.makeText(this,getString(R.string.permission_request_cancel_message), Toast.LENGTH_LONG).show()
+            checkAndRequestNotificationPermission()
+        }
+    }
+
+    private fun systemAlertPermissionDialogListener(state:Boolean)
+    {
+        if(!state)
+        {
+            Toast.makeText(this,getString(R.string.permission_request_cancel_message), Toast.LENGTH_LONG).show()
+            checkAndRequestSystemAlertPermission()
+        }
+    }
+
+    private fun checkAndRequestNotificationPermission()
+    {
+        try
+        {
+            if(!PermissionHelper.isNotificationServiceEnabled(this))
+            {
+
+                dialog = PermissionHelper.buildNotificationServiceAlertDialog(this,::notificationPermissionDialogListener)
+                dialog.show()
+            }
+            else
+            {
+                checkAndRequestBootReceiverPermission()
+            }
+        }
+        catch (e: Exception)
+        {
+
+        }
+    }
+
+    private fun checkAndRequestBootReceiverPermission()
+    {
+        try
+        {
+
+            if(BootReceiverHelper.getInstance().checkPrePermission())
+            {
+                if(!BootReceiverPrefHelper.readBoolean(this) )
+                {
+                    isPermission = false
+                    PermissionHelper.buildBootReceiverAlertDialog(this)
+                }
+                else
+                {
+                    start()
+                }
+            }
+            else
+            {
+                start()
+            }
+
+        }
+        catch (e: Exception)
+        {
+
+        }
+    }
+
+    private fun checkAndRequestSystemAlertPermission()
+    {
+        try
+        {
+
+            if(PermissionHelper.checkSystemAlertPermission(this))
+            {
+                val dialog = PermissionHelper.buildSystemAlertPermissionAlertDialog(this,::systemAlertPermissionDialogListener)
+                dialog.show()
+            }
+            else
+            {
+                //init()
+            }
+
+        }
+        catch (e: Exception)
+        {
+
+        }
+    }
+
+
+//--------------------------------------------------------------------------------------------------
 }
