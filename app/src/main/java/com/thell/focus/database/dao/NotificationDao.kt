@@ -1,0 +1,19 @@
+package com.thell.focus.database.dao
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
+import com.thell.focus.database.entity.NotificationEntity
+import com.thell.focus.database.util.IDatabaseOperation
+
+@Dao
+interface NotificationDao: IDatabaseOperation<NotificationEntity>
+{
+
+    @Query("select * from Notification")
+    override fun getAll(): LiveData<List<NotificationEntity>>
+
+    @Query("select * from Notification")
+    override fun getAllList(): List<NotificationEntity>
+
+}

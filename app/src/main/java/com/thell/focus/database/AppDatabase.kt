@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.thell.focus.database.dao.NotificationDao
 import com.thell.focus.database.dao.SettingsDao
 import com.thell.focus.database.entity.NotificationEntity
 import com.thell.focus.database.entity.SettingsEntity
@@ -16,6 +17,8 @@ abstract class AppDatabase : RoomDatabase()
 {
 
     abstract fun getSettingsDao():SettingsDao
+
+    abstract fun getNotificationDao():NotificationDao
 
     companion object
     {
