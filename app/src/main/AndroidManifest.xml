@@ -21,6 +21,15 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".services.MuteNotificationListenerService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
 
         <receiver
             android:name=".broadcastreceiver.BootBroadcastReceiver"
