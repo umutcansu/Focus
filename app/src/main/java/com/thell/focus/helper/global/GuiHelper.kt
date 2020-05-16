@@ -16,6 +16,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
+import com.thell.focus.database.entity.NotificationEntity
 import java.util.*
 
 
@@ -94,8 +95,7 @@ class GuiHelper private constructor()
             return result
         }
 
-        /*fun getIcon(context: Context, notificationEntity: NotificationEntity) =
-            getIcon(context,notificationEntity.PackageName)*/
+
 
         fun startRotatingView(rotate: Boolean?, view: View, finishedAnimFunc: () -> Unit)
         {
