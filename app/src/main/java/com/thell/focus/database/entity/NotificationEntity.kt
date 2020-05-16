@@ -1,6 +1,7 @@
 package com.thell.focus.database.entity
 
 import androidx.room.*
+import java.io.Serializable
 
 
 @Entity(tableName = "Notification")
@@ -25,4 +26,4 @@ data class NotificationEntity
     var NotificationID: Int=0,
     @ColumnInfo(name = "MuteState")
     var MuteState: Boolean=false
-)
+):Serializable

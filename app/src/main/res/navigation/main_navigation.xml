@@ -26,6 +26,9 @@
             app:argType="com.thell.focus.helper.navigation.IFragmentCallback"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_historyFragment_to_historyDetailBottomSheetDialogFragment2"
+            app:destination="@id/historyDetailBottomSheetDialogFragment2" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -54,4 +57,15 @@
         android:name="com.thell.focus.ui.fragment.ContainerFragment"
         android:label="fragment_container"
         tools:layout="@layout/fragment_container" />
+    <dialog
+        android:id="@+id/historyDetailBottomSheetDialogFragment2"
+        android:name="com.thell.focus.ui.fragment.HistoryDetailBottomSheetDialogFragment"
+        android:label="fragment_bottom_sheet_history_item_details"
+        tools:layout="@layout/fragment_bottom_sheet_history_item_details" >
+        <argument
+            android:name="historyNavigation"
+            app:argType="com.thell.focus.database.entity.NotificationEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
 </navigation>

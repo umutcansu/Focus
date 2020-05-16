@@ -147,7 +147,9 @@ class HistoryFragment :Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     private fun clickNotification(notificationEntity: NotificationEntity)
     {
-
+        val direction = HistoryFragmentDirections.actionHistoryFragmentToHistoryDetailBottomSheetDialogFragment2()
+        direction.historyNavigation = notificationEntity
+        navController.navigate(direction)
     }
 
     private fun initSearchBox()
