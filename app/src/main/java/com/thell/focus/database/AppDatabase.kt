@@ -7,18 +7,22 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.thell.focus.database.dao.NotificationDao
 import com.thell.focus.database.dao.SettingsDao
+import com.thell.focus.database.dao.TimerDao
 import com.thell.focus.database.entity.NotificationEntity
 import com.thell.focus.database.entity.SettingsEntity
+import com.thell.focus.database.entity.TimerEntity
 import com.thell.focus.helper.global.GlobalHelper
 import com.thell.focus.helper.settings.SettingsHelper
 
-@Database(entities = [SettingsEntity::class,NotificationEntity::class],version = GlobalHelper.DATABASE_VERSION)
+@Database(entities = [SettingsEntity::class,NotificationEntity::class,TimerEntity::class],version = GlobalHelper.DATABASE_VERSION)
 abstract class AppDatabase : RoomDatabase()
 {
 
     abstract fun getSettingsDao():SettingsDao
 
     abstract fun getNotificationDao():NotificationDao
+
+    abstract fun getTimerDao():TimerDao
 
     companion object
     {

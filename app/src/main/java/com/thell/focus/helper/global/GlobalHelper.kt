@@ -13,7 +13,7 @@ object GlobalHelper
 {
     const val   VERSION = "0.0.1"
     const val   DATABASE_NAME = "FocusDatabase"
-    const val   DATABASE_VERSION = 1
+    const val   DATABASE_VERSION = 2
 
     fun startApplication(context: Context)
     {
