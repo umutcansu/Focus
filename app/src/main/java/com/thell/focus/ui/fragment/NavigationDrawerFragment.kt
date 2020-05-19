@@ -17,9 +17,10 @@ import com.thell.focus.databinding.FragmentContainerBinding
 import com.thell.focus.databinding.FragmentNavigationDrawerBinding
 import com.thell.focus.helper.global.GuiHelper
 import com.thell.focus.helper.navigation.NavigationMenuHelper
+import java.io.Serializable
 
 
-class NavigationDrawerFragment() : Fragment()
+class NavigationDrawerFragment() : Fragment(),Serializable
 {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
@@ -62,10 +63,6 @@ class NavigationDrawerFragment() : Fragment()
         )
         setupRecyclerView(menuChangeListener)
 
-        drawerLayout.post()
-        {
-            //mDrawerToggle.syncState()
-        }
     }
 
 
@@ -85,5 +82,8 @@ class NavigationDrawerFragment() : Fragment()
         navigationDrawerRecyclerView.adapter = adapter
     }
 
-
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
+    }
 }

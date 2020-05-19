@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.PersistableBundle
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -20,6 +21,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.thell.focus.FocusApplication
 import com.thell.focus.helper.bootreceiver.BootReceiverHelper
 import com.thell.focus.helper.bootreceiver.BootReceiverPrefHelper
 import com.thell.focus.helper.global.GlobalHelper
@@ -29,13 +31,86 @@ import com.thell.focus.helper.permission.PermissionHelper
 import com.thell.focus.ui.fragment.*
 import kotlinx.android.synthetic.main.fragment_navigation_drawer.view.*
 
-class MainActivity : AppCompatActivity(),IFragmentCallback
+class MainActivity : AppCompatActivity()
 {
 
+    companion object
+    {
+        private var binding: ActivityMainBinding? = null
+        private  var navFrag : NavigationDrawerFragment? = null
+        private  var drawerLayout: DrawerLayout? = null
+        private  var navController: NavController? = null
+
+        private fun menuChangeListener(menu: NavigationDrawerItem)
+        {
+            when(menu.title)
+            {
+                NavigationMenuHelper.HOME -> openMainFragment()
+                NavigationMenuHelper.HISTORY -> openHistoryFragment()
+                NavigationMenuHelper.SETTING -> openSettingsFragment()
+                NavigationMenuHelper.TIMER -> openTimerFragment()
+            }
+            if(drawerLayout != null)
+                GuiHelper.closeDrawerLayout(drawerLayout!!)
+        }
+
+        private fun changeFragment(fragment: Int,args:Bundle)
+        {
+            navController?.navigate(fragment,args)
+        }
+
+        private fun openMainFragment()
+        {
+            val args = MainFragmentArgs.Builder()
+            args.fragmentCallback = fragmentCallback
+            changeFragment(R.id.mainFragment,args.build().toBundle())
+        }
+
+        private fun openHistoryFragment()
+        {
+            val args = HistoryFragmentArgs.Builder()
+            args.fragmentCallback = fragmentCallback
+            changeFragment(R.id.historyFragment,args.build().toBundle())
+        }
+
+        private fun openSettingsFragment()
+        {
+            val args = SettingsFragmentArgs.Builder()
+            args.fragmentCallback = fragmentCallback
+            changeFragment(R.id.settingsFragment,args.build().toBundle())
+        }
+
+        private fun openTimerFragment()
+        {
+            val args = TimerFragmentArgs.Builder()
+            args.fragmentCallback = fragmentCallback
+            changeFragment(R.id.timerFragment,args.build().toBundle())
+        }
+
+        var fragmentCallback = object :IFragmentCallback
+        {
+            override fun changeHeader(header: String)
+            {
+                   binding?.mainActivityToolbar?.toolbarNavigationHeaderTextView?.apply {
+                       text = header
+                       visibility = View.VISIBLE
+                   }
+                   if(header.isNotEmpty())
+                   {
+                       for (menu in NavigationMenuHelper.allMenuItem)
+                       {
+                           menu.selected = menu.title == header
+                       }
+                   }
+
+                   navFrag?.setupRecyclerView(::menuChangeListener)
+            }
+
+        }
+    }
+
+
     private lateinit var toolbar: Toolbar
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navFrag : NavigationDrawerFragment
-    private lateinit var navController: NavController
 
     private val infoOnClick = object :View.OnClickListener
     {
@@ -86,7 +161,8 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
 
         private fun coreClick()
         {
-            GuiHelper.openDrawerLayout(drawerLayout)
+            if(drawerLayout != null)
+                GuiHelper.openDrawerLayout(drawerLayout!!)
         }
 
     }
@@ -95,35 +171,30 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
 
     private fun initButtonClick()
     {
-        binding.mainActivityToolbar.toolbarInfoButton.setOnClickListener(infoOnClick)
-        binding.mainActivityToolbar.toolbarMenuButton.setOnClickListener(menuOnClick)
+        binding?.mainActivityToolbar?.toolbarInfoButton?.setOnClickListener(infoOnClick)
+        binding?.mainActivityToolbar?.toolbarMenuButton?.setOnClickListener(menuOnClick)
     }
 
-    override fun changeHeader(header: String)
-    {
-        binding.mainActivityToolbar.toolbarNavigationHeaderTextView.apply {
-            text = header
-            visibility = View.VISIBLE
-        }
-        if(header.isNotEmpty())
-        {
-            for (menu in NavigationMenuHelper.allMenuItem)
-            {
-                menu.selected = menu.title == header
-            }
-        }
 
-        navFrag.setupRecyclerView(this@MainActivity::menuChangeListener)
+
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putSerializable("Callback",fragmentCallback)
     }
 
-    private lateinit var binding: ActivityMainBinding
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if(!savedInstanceState.isEmpty)
+            fragmentCallback = savedInstanceState.getSerializable("Callback") as IFragmentCallback
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setupFullScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
+        val view = binding?.root
         setContentView(view)
         initUI()
         init()
@@ -137,6 +208,15 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
 
         super.onResume()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+        navFrag = null
+        drawerLayout = null
+        navController = null
+    }
+
 
     private fun initUI()
     {
@@ -157,62 +237,18 @@ class MainActivity : AppCompatActivity(),IFragmentCallback
 
     private fun initToolbarAndDrawerLayout()
     {
-        drawerLayout = binding.mainActivityDrawerLayout
-        toolbar = binding.mainActivityToolbar.root
+        drawerLayout = binding!!.mainActivityDrawerLayout
+        toolbar = binding?.mainActivityToolbar!!.root
         setupNavigationDrawer()
     }
 
     private fun setupNavigationDrawer()
     {
         navFrag = supportFragmentManager.findFragmentById(R.id.mainActivityDrawerLayoutFragment) as NavigationDrawerFragment
-        navFrag.setupDrawerToggle(drawerLayout,toolbar ,::menuChangeListener)
-    }
-
-    private fun menuChangeListener(menu: NavigationDrawerItem)
-    {
-        when(menu.title)
-        {
-            NavigationMenuHelper.HOME -> openMainFragment()
-            NavigationMenuHelper.HISTORY -> openHistoryFragment()
-            NavigationMenuHelper.SETTING -> openSettingsFragment()
-            NavigationMenuHelper.TIMER -> openTimerFragment()
-        }
-        GuiHelper.closeDrawerLayout(drawerLayout)
-    }
-
-    private fun changeFragment(fragment: Int,args:Bundle)
-    {
-        navController.navigate(fragment,args)
-    }
-
-    private fun openMainFragment()
-    {
-        val args = MainFragmentArgs.Builder()
-        args.fragmentCallback = this
-        changeFragment(R.id.mainFragment,args.build().toBundle())
+        navFrag!!.setupDrawerToggle(drawerLayout!!,toolbar ,::menuChangeListener)
     }
 
 
-    private fun openHistoryFragment()
-    {
-        val args = HistoryFragmentArgs.Builder()
-        args.fragmentCallback = this
-        changeFragment(R.id.historyFragment,args.build().toBundle())
-    }
-
-    private fun openSettingsFragment()
-    {
-        val args = SettingsFragmentArgs.Builder()
-        args.fragmentCallback = this
-        changeFragment(R.id.settingsFragment,args.build().toBundle())
-    }
-
-    private fun openTimerFragment()
-    {
-        val args = TimerFragmentArgs.Builder()
-        args.fragmentCallback = this
-        changeFragment(R.id.timerFragment,args.build().toBundle())
-    }
 
 
     private fun start()

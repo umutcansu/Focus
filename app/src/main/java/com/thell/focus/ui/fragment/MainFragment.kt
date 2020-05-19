@@ -79,6 +79,9 @@ class MainFragment : Fragment() {
 
     private fun checkNotificationState(state:Boolean)
     {
+        if(binding == null)
+            return
+
         binding!!.mainFragmentMuteSwitch.setOnCheckedChangeListener(null)
         binding!!.mainFragmentMuteSwitch.isChecked = state
         binding!!.mainFragmentMuteSwitch.setOnCheckedChangeListener(switchChange)
@@ -128,8 +131,10 @@ class MainFragment : Fragment() {
         if(arguments != null)
         {
             val args = MainFragmentArgs.fromBundle(requireArguments())
-            val callback =  args.fragmentCallback as IFragmentCallback
-            callback.changeHeader(NavigationMenuHelper.HOME)
+            if(args.fragmentCallback != null) {
+                val callback = args.fragmentCallback as IFragmentCallback
+                callback.changeHeader(NavigationMenuHelper.HOME)
+            }
         }
 
     }
